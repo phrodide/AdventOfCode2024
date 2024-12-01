@@ -7,7 +7,9 @@ namespace AOC2024
     {
         public static string GetMD(int year, int day)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var parent = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).GetDirectories().Where(x => x.Name=="Inputs").Single();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             if (System.IO.File.Exists(parent + $"/{year}_{day}_html.txt"))
             {
@@ -16,6 +18,8 @@ namespace AOC2024
 
 
 
+
+            Console.WriteLine("Fetching MD from the server...");
             var sessionKey = System.IO.File.ReadAllLines(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()) + "/.session")[0];
             var baseAddress = new Uri("https://adventofcode.com");
             var cookieContainer = new CookieContainer();
@@ -31,7 +35,7 @@ namespace AOC2024
             var parse = System.IO.File.ReadAllText(parent + $"/{year}_{day}_html.txt");
             var doc = new HtmlDocument();
             doc.LoadHtml(parse);
-            var article = (from a in doc.DocumentNode.Descendants("article") where a.Attributes["class"].Value == "day-desc" select a).Single();
+            var article = (from a in doc.DocumentNode.Descendants("article") where a.Attributes["class"].Value == "day-desc" select a).First();
             var title = (from c in article.ChildNodes where c.Name == "h2" select c.InnerText).First();
             string example = "";
             sb.AppendLine("# " + title);
@@ -67,24 +71,56 @@ namespace AOC2024
                 System.IO.File.WriteAllText(parent + $"/{year}_{day}_test.txt", example);
             }
 
+            var articles = (from a in doc.DocumentNode.Descendants("article") where a.Attributes["class"].Value == "day-desc" select a);
+            if (articles.Count() != 1)
+            {
+                //part 2 is opened up...
+                sb = new System.Text.StringBuilder();
+                var article2 = articles.Skip(1).First();
+                var title2 = (from c in article2.ChildNodes where c.Name == "h2" select c.InnerText).First();
+                sb.AppendLine("# " + title2);
+                foreach (var child in article2.ChildNodes)
+                {
+                    if (child.Name == "p")
+                    {
+                        sb.AppendLine(child.InnerHtml);
+                        sb.AppendLine();
+
+                    }
+                    else if (child.Name == "pre")
+                    {
+                        sb.AppendLine("```shell");
+                        sb.AppendLine(child.InnerText);
+                        sb.AppendLine("```");
+                    }
+                }
+                System.IO.File.WriteAllText(parent + $"/{year}_{day}_part2.md", sb.ToString());
+
+            }
+
             return sb.ToString();
 
         }
 
         public static string GetTest(int year, int day)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var parent = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).GetDirectories().Where(x => x.Name=="Inputs").Single();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             if (System.IO.File.Exists(parent + $"/{year}_{day}_test.txt"))
             {
                 return System.IO.File.ReadAllText(parent + $"/{year}_{day}_test.txt");
             }
+            Console.WriteLine("No test case?? Empty data returned...");
             return "";
         }
 
         public static string GetInput(int year, int day)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var parent = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).GetDirectories().Where(x => x.Name=="Inputs").Single();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             if (System.IO.File.Exists(parent + $"/{year}_{day}_input.txt"))
             {
@@ -93,6 +129,7 @@ namespace AOC2024
 
 
 
+            Console.WriteLine("Fetching Input from the server...");
             var sessionKey = System.IO.File.ReadAllLines(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()) + "/.session")[0];
             var baseAddress = new Uri("https://adventofcode.com");
             var cookieContainer = new CookieContainer();

@@ -2,3 +2,10 @@
 www.adventofcode.com
 
 My submissions will be here. I am on a Mac using Visual Studio Code. Last time I played, I was using Visual Studio 2022 on Windows. Nuanced changes. I don't expect to rank, but I do hope to finish.
+
+If you want to use this, you will need to inspect your adventofcode.com cookies and take the contents of the session cookie, and put it in a file called .session in the root of this repository.
+
+I expect my static functions to grow as I progress on this journey.
+
+Day 1 complete. Issues: I was facing an int parsing error with a blank line. I hacked it out of the input and it worked. I should make a better parser to not do this again.
+I put Part 2 into its own MD. I like it, I think. You have to force a new fetch from the server by deleting the html.txt file for it to work.
