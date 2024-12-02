@@ -3,7 +3,7 @@ using System.Net;
 using HtmlAgilityPack;
 using AOC2024;
 
-namespace AOC2024.Day01
+namespace AOC2024.Day02
 {
 
     public class Solve
