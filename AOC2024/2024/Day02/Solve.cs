@@ -2,6 +2,7 @@ using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
 using AOC2024;
+using System.Security.Cryptography.X509Certificates;
 
 namespace AOC2024.Day02
 {
@@ -24,34 +25,145 @@ namespace AOC2024.Day02
 
         public string Part1()
         {
-            var left = Input.LinesWithContent().Select(x => int.Parse(x.Split(' ')[0])).OrderBy(x => x).ToArray();
-            var right = Input.LinesWithContent().Select(x => int.Parse(x.Split(' ',StringSplitOptions.RemoveEmptyEntries)[1])).OrderBy(x => x).ToArray();
-
-            int sum = 0;
-            for (int i = 0; i < left.Length; i++)
+            var reports = Input.LinesWithContent();
+            int count = 0;
+            foreach (var report in reports)
             {
-                sum += Math.Abs(left[i] - right[i]);
+                var array = report.Split(' ').Select(x => int.Parse(x)).ToArray();
+                bool known = false;
+                bool isIncreasing = true;
+                bool safe = true;
+                for (int i = 1; i < array.Length; i++)
+                {
+                    int diff = array[i] - array[i-1];
+                    int abs_diff = Math.Abs(diff);
+                    if (diff < 0)
+                    {
+                        //decreasing
+                        if (known==true && isIncreasing==true)
+                        {
+                            safe = false;
+                            break;
+                        }
+                        known = true;
+                        isIncreasing = false;
+                    }
+                    if (diff > 0)
+                    {
+                        //increasing
+                        if (known==true && isIncreasing==false)
+                        {
+                            safe = false;
+                            break;
+                        }
+                        known = true;
+                        isIncreasing = true;
+                    }
+                    if (abs_diff < 1 || abs_diff > 3)
+                    {
+                        safe = false;
+                        break;
+                    }
+                    
+                    
+                }
+                if (safe) count++;
             }
             
 
-            return $"{sum}";
+            return $"{count}";
         }
         
         public string Part2()
         {
-            var left = Input.LinesWithContent().Select(x => int.Parse(x.Split(' ')[0])).OrderBy(x => x).ToArray();
-            var right = Input.LinesWithContent().Select(x => int.Parse(x.Split(' ',StringSplitOptions.RemoveEmptyEntries)[1])).OrderBy(x => x).ToArray();
-
-            int sum = 0;
-            for (int i = 0; i < left.Length; i++)
+            var reports = Input.LinesWithContent();
+            int count = 0;
+            foreach (var report in reports)
             {
-                var count = (from r in right where r == left[i] select r).Count();
-                sum += Math.Abs(left[i] * count);
+                var array = report.Split(' ').Select(x => int.Parse(x)).ToArray();
+                bool safe = isReportSafe(array);
+                if (safe) count++;
             }
-            
 
-            return $"{sum}";
+          
+
+            return $"{count}";
         }
+        public bool isReportSafe(int[] array, bool initial = true)
+        {
+                bool known = false;
+                bool isIncreasing = true;
+                bool safe = true;
+                for (int i = 1; i < array.Length; i++)
+                {
+                    int diff = array[i] - array[i-1];
+                    int abs_diff = Math.Abs(diff);
+                    if (diff < 0)
+                    {
+                        //decreasing
+                        if (known==true && isIncreasing==true)
+                        {
+                            if (initial==true)
+                            {
+                                //try to remove one item and see if it works...
+                                for (int j = 0; j < array.Length; j++)
+                                {
+                                    List<int> a = new(array);
+                                    a.RemoveAt(j);
+                                    if (isReportSafe(a.ToArray(), false))
+                                        return true;
+                                }
+                            }
+                            safe = false;
+                            break;
+                        }
+                        known = true;
+                        isIncreasing = false;
+                    }
+                    if (diff > 0)
+                    {
+                        //increasing
+                        if (known==true && isIncreasing==false)
+                        {
+                            if (initial==true)
+                            {
+                                //try to remove one item and see if it works...
+                                for (int j = 0; j < array.Length; j++)
+                                {
+                                    List<int> a = new(array);
+                                    a.RemoveAt(j);
+                                    if (isReportSafe(a.ToArray(), false))
+                                        return true;
+                                }
+                            }
+                            safe = false;
+                            break;
+                        }
+                        known = true;
+                        isIncreasing = true;
+                    }
+                    if (abs_diff < 1 || abs_diff > 3)
+                    {
+                            if (initial==true)
+                            {
+                                //try to remove one item and see if it works...
+                                for (int j = 0; j < array.Length; j++)
+                                {
+                                    List<int> a = new(array);
+                                    a.RemoveAt(j);
+                                    if (isReportSafe(a.ToArray(), false))
+                                        return true;
+                                }
+                            }
+                        safe = false;
+                        break;
+                    }
+                    
+                    
+                }
+                return safe;
+        }
+
     }
 
 }

@@ -29,6 +29,22 @@ namespace AOC2024{
             return output;        
         }
 
+        public static Dictionary<string,T> ConvertTo<T>(this string[] input, char delimiter) where T : IInputConvertTo,new()
+        {
+            Dictionary<string,T> output = [];
+            foreach (var line in input)
+            {
+                int offset = line.IndexOf(':');
+                if (offset == -1) continue;
+                T data = new()
+                {
+                    Input = line[(offset + 1)..]
+                };
+                output.Add(line[..offset],data);
+            }
+            return output;
+        }
+
         public static Dictionary<string,List<string>> DictionaryToArray(this Dictionary<string,string> input, char delimiter)
         {
             Dictionary<string,List<string>> output = [];
@@ -49,5 +65,10 @@ namespace AOC2024{
         //5 = multiline
         //6 = header followed by a list of tokens
 
+    }
+
+    public interface IInputConvertTo
+    {
+        public string Input { get; set; }
     }
 }
