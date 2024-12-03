@@ -10,3 +10,7 @@ var s2 = new AOC2024.Day02.Solve(2);
 Console.WriteLine("Part 1: " + s2.Part1());
 Console.WriteLine("Part 2: " + s2.Part2());
 
+Console.WriteLine("Solving Day 3...");
+var s3 = new AOC2024.Day03.Solve(3);
+Console.WriteLine("Part 1: " + s3.Part1());
+Console.WriteLine("Part 2: " + s3.Part2());
