@@ -33,38 +33,12 @@ namespace AOC2024.Day03
                 if (instr.Length==0) continue;
                 var nums = instr.Split(',');
                 if (nums.Length!=2) continue;
-                bool invalid = false;
-                foreach(char c in instr)
+                string num1 = instr.Split(',')[0];
+                string num2 = instr.Split(',')[1];
+                if (num1.Length >= 1 && num1.Length <= 3 && num2.Length >= 1 && num2.Length <= 3 && int.TryParse(num1, out int inum1) && int.TryParse(num2, out int inum2))
                 {
-                    switch (c)
-                    {
-                        case '0':
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '4':
-                        case '5':
-                        case '6':
-                        case '7':
-                        case '8':
-                        case '9':
-                        case ',':
-                            break;
-                        default:
-                            invalid = true;
-                            break;
-                    }
-                }    
-                if (!invalid)
-                {
-                    //passed first sanity check. Now let's try to parse it.
-                    string num1 = instr.Split(',')[0];
-                    string num2 = instr.Split(',')[1];
-                    if (num1.Length >= 1 && num1.Length <= 3 && num2.Length >= 1 && num2.Length <= 3 && int.TryParse(num1, out int inum1) && int.TryParse(num2, out int inum2))
-                    {
-                        count += inum1*inum2;
-                    }
-                }            
+                    count += inum1*inum2;
+                }
             }
             
 
@@ -91,39 +65,13 @@ namespace AOC2024.Day03
                 }
                 var nums = instr.Split(',');
                 if (nums.Length!=2) continue;
-                bool invalid = false;
-                foreach(char c in instr)
+                string num1 = instr.Split(',')[0];
+                string num2 = instr.Split(',')[1];
+                if (num1.Length >= 1 && num1.Length <= 3 && num2.Length >= 1 && num2.Length <= 3 && int.TryParse(num1, out int inum1) && int.TryParse(num2, out int inum2))
                 {
-                    switch (c)
-                    {
-                        case '0':
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '4':
-                        case '5':
-                        case '6':
-                        case '7':
-                        case '8':
-                        case '9':
-                        case ',':
-                            break;
-                        default:
-                            invalid = true;
-                            break;
-                    }
-                }    
-                if (!invalid)
-                {
-                    //passed first sanity check. Now let's try to parse it.
-                    string num1 = instr.Split(',')[0];
-                    string num2 = instr.Split(',')[1];
-                    if (num1.Length >= 1 && num1.Length <= 3 && num2.Length >= 1 && num2.Length <= 3 && int.TryParse(num1, out int inum1) && int.TryParse(num2, out int inum2))
-                    {
-                        if (enable)
-                            count += inum1*inum2;
-                    }
-                }            
+                    if (enable)
+                        count += inum1*inum2;
+                }
             }
             
 
