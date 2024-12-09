@@ -44,22 +44,25 @@ namespace AOC2024.Day05
         public string Part1()
         {
             long count = 0;
-            foreach (var item in Input[1].LinesWithContent())
+            foreach (var array in from item in Input[1].LinesWithContent()
+                                  let array = item.Split(',').Select(x => int.Parse(x)).ToArray()
+                                  select array)
             {
-                var array = item.Split(',').Select(x => int.Parse(x)).ToArray();
-                var passes = Passes(array);
-                if (passes)
+                if (Passes(array))
                 {
-                    int len = (array.Length / 2);
-                    count += array[len];
+                    count += array[array.Length / 2];
+                }
+                else
+                {
+                    part2.Add(array);
                 }
             }
+
             return $"{count}";
         }
 
-        private bool Passes(int[] array, bool addToPart = true)
+        private bool Passes(int[] array)
         {
-            bool passes = true;
             for (int i = 0; i < array.Length; i++)
             {
                 var inspectionItem = array[i];
@@ -71,30 +74,24 @@ namespace AOC2024.Day05
                         {
                             if (array[j] == inspectionValue && j > i)
                             {
-                                if (addToPart) part2.Add(array);
-                                passes = false;
-                                break;
+                                return false;
                             }
                         }
-                        if (passes == false)
-                            break;
                     }
                 }
-                if (passes == false)
-                    break;
             }
-            return passes;
+            return true;
         }
 
         public string Part2()
         {
             long count = 0;
-            foreach (var item in part2)
+            foreach (var test in from item in part2
+                                 let test = new List<int>(item).ToArray()
+                                 select test)
             {
-                var test = new List<int>(item).ToArray();
-                while (!Passes(test, false))
+                while (!Passes(test))
                 {
-                    //find first error.  
                     bool retest = false;
                     for (int i = 0; i < test.Length; i++)
                     {
@@ -107,10 +104,7 @@ namespace AOC2024.Day05
                                 {
                                     if (test[j] == inspectionValue && j > i)
                                     {
-                                        var temp = test[j];
-                                        test[j] = test[i];
-                                        test[i] = temp;
-                                        //test = Bubble(test, i);
+                                        (test[i], test[j]) = (test[j], test[i]);
                                         retest = true;
                                         break;
                                     }
@@ -121,37 +115,13 @@ namespace AOC2024.Day05
                         if (retest) break;
                     }
                 }
+
                 int len = (test.Length / 2);
                 count += test[len];
-
-                //we need to bubble the first failure and see if it passes...
-                //var b = Bubble(item, 0);
-                //var c = Bubble(item, 1);
-                //var d = Bubble(item, 2);
             }
+
             return $"{count}";
         }
-
-        private int[] Bubble(int[] a, int offset)
-        {
-            //0 moves 1 to 0, 0 to 1, and appends everything else.
-            //1 prepends 0 to 0, 1 to 2, 2 to 1, and appends everything else.
-            //n prepends everything, and should never happen.
-            List<int> newList = [];
-            for (int i = 0; i < offset; i++)
-            {
-                newList.Add(a[i]);
-            }
-            newList.Add(a[offset + 1]);
-            newList.Add(a[offset]);
-            //(a[offset + 1], a[offset]) = (a[offset], a[offset + 1]);
-            for (int i = offset + 2; i < a.Length; i++)
-            {
-                newList.Add(a[i]);
-            }
-            return newList.ToArray();
-        }
-
     }
 
 }
