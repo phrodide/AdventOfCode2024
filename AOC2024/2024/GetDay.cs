@@ -7,9 +7,8 @@ namespace AOC2024
     {
         public static string GetMD(int year, int day)
         {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            var parent = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).GetDirectories().Where(x => x.Name=="Inputs").Single();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            var currdir = System.IO.Directory.GetCurrentDirectory().Replace("AOC2024","\n").Split('\n')[0];
+            var parent = Directory.GetParent(currdir).GetDirectories().Where(x => x.Name=="Inputs").Single();
 
             if (System.IO.File.Exists(parent + $"/{year}_{day}_html.txt"))
             {
@@ -104,9 +103,8 @@ namespace AOC2024
 
         public static string GetTest(int year, int day)
         {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            var parent = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).GetDirectories().Where(x => x.Name=="Inputs").Single();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            var currdir = System.IO.Directory.GetCurrentDirectory().Replace("AOC2024","\n").Split('\n')[0];
+            var parent = Directory.GetParent(currdir).GetDirectories().Where(x => x.Name=="Inputs").Single();
 
             if (System.IO.File.Exists(parent + $"/{year}_{day}_test.txt"))
             {
@@ -118,9 +116,8 @@ namespace AOC2024
 
         public static string GetInput(int year, int day)
         {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            var parent = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).GetDirectories().Where(x => x.Name=="Inputs").Single();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            var currdir = System.IO.Directory.GetCurrentDirectory().Replace("AOC2024","\n").Split('\n')[0];
+            var parent = Directory.GetParent(currdir).GetDirectories().Where(x => x.Name=="Inputs").Single();
 
             if (System.IO.File.Exists(parent + $"/{year}_{day}_input.txt"))
             {
