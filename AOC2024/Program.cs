@@ -29,3 +29,8 @@ Console.WriteLine("Solving Day 6...");
 var s6 = new AOC2024.Day06.Solve(6);
 Console.WriteLine("Part 1: " + s6.Part1());
 Console.WriteLine("Part 2: " + s6.Part2());
+
+Console.WriteLine("Solving Day 7...");
+var s7 = new AOC2024.Day07.Solve(7);
+Console.WriteLine("Part 1: " + s7.Part1());
+Console.WriteLine("Part 2: " + s7.Part2());
