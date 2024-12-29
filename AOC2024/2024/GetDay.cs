@@ -19,7 +19,7 @@ namespace AOC2024
 
 
             Console.WriteLine("Fetching MD from the server...");
-            var sessionKey = System.IO.File.ReadAllLines(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()) + "/.session")[0];
+            var sessionKey = System.IO.File.ReadAllLines(Directory.GetParent(currdir) + "/.session")[0];
             var baseAddress = new Uri("https://adventofcode.com");
             var cookieContainer = new CookieContainer();
             HttpClientHandler handler = new HttpClientHandler() { CookieContainer = cookieContainer };
@@ -127,7 +127,7 @@ namespace AOC2024
 
 
             Console.WriteLine("Fetching Input from the server...");
-            var sessionKey = System.IO.File.ReadAllLines(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()) + "/.session")[0];
+            var sessionKey = System.IO.File.ReadAllLines(Directory.GetParent(currdir) + "/.session")[0];
             var baseAddress = new Uri("https://adventofcode.com");
             var cookieContainer = new CookieContainer();
             HttpClientHandler handler = new HttpClientHandler() { CookieContainer = cookieContainer };
