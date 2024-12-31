@@ -39,3 +39,8 @@ Console.WriteLine("Solving Day 8...");
 var s8 = new AOC2024.Day08.Solve(8);
 Console.WriteLine("Part 1: " + s8.Part1());
 Console.WriteLine("Part 2: " + s8.Part2());
+
+Console.WriteLine("Solving Day 9...");
+var s9 = new AOC2024.Day09.Solve(9);
+Console.WriteLine("Part 1: " + s9.Part1());
+Console.WriteLine("Part 2: " + s9.Part2());
